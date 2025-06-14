@@ -20,3 +20,10 @@ model Leaderboard {
     createdAt DateTime @default(now())
     time      Int   
 }
+
+model Character {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    relativeX Int
+    relativeY Int
+}
