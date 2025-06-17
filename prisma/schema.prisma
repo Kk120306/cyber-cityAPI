@@ -5,25 +5,43 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
-
 
 model Leaderboard {
     id        Int      @id @default(autoincrement())
     name      String   @unique
     createdAt DateTime @default(now())
-    time      Int   
+    time      Int
 }
 
 model Character {
-    id        Int      @id @default(autoincrement())
-    name      String   @unique
-    relativeX Int
-    relativeY Int
+    id        Int                 @id @default(autoincrement())
+    name      String              @unique
+    relativex Float
+    relativey Float
+    width     Float
+    height    Float
+    progress  CharacterProgress[]
+}
+
+model GameSession {
+    id          Int                 @id @default(autoincrement())
+    playerName  String
+    startedAt   DateTime            @default(now())
+    completedAt DateTime?
+    progress    CharacterProgress[]
+}
+
+model CharacterProgress {
+    id          Int         @id @default(autoincrement())
+    character   Character   @relation(fields: [characterId], references: [id])
+    characterId Int
+    session     GameSession @relation(fields: [sessionId], references: [id])
+    sessionId   Int
 }
