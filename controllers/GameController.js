@@ -40,8 +40,8 @@ async function checkClick(req, res) {
             return res.status(404).json({ success: false, message: 'Character not found' });
         }
 
-        const withinX = relX >= character.relativex && relX <= character.relativex + character.width;
-        const withinY = relY >= character.relativey && relY <= character.relativey + character.height;
+        const withinX = relX >= character.relativex && relX <= character.relativex + character.width + .000002;
+        const withinY = relY >= character.relativey && relY <= character.relativey + character.height + .000002;
 
         if (withinX && withinY) {
             const alreadyFound = await prisma.characterProgress.findFirst({
